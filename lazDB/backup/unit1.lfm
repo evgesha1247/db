@@ -1,0 +1,201 @@
+object Form1: TForm1
+  Left = 975
+  Height = 586
+  Top = 146
+  Width = 932
+  BorderStyle = bsSingle
+  Caption = 'публикации'
+  ClientHeight = 586
+  ClientWidth = 932
+  Color = clForm
+  OnCreate = FormCreate
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '2.2.2.0'
+  object DBGrid1: TDBGrid
+    Left = 0
+    Height = 546
+    Top = 40
+    Width = 932
+    Align = alBottom
+    AutoAdvance = aaNone
+    AutoFillColumns = True
+    Color = clForm
+    Columns = <    
+      item
+        Title.Caption = '№'
+        Width = 131
+        FieldName = 'id'
+      end    
+      item
+        Title.Caption = 'имя'
+        Width = 131
+        FieldName = 'name'
+      end    
+      item
+        Title.Caption = 'отчество'
+        Width = 131
+        FieldName = 'patronymic'
+      end    
+      item
+        Title.Caption = 'фамилия'
+        Width = 131
+        FieldName = 'surname'
+      end    
+      item
+        Title.Caption = 'книга'
+        Width = 131
+        FieldName = 'name_1'
+      end    
+      item
+        Title.Caption = 'переплет'
+        Width = 131
+        FieldName = 'name_2'
+      end    
+      item
+        Title.Caption = 'тираж'
+        Width = 132
+        FieldName = 'circulation'
+      end>
+    DataSource = DataS
+    DefaultRowHeight = 30
+    DoubleBuffered = False
+    FixedColor = clForm
+    FixedHotColor = clForm
+    Font.Height = -17
+    Font.Name = 'JetBrains Mono'
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+    ParentDoubleBuffered = False
+    ParentFont = False
+    Scrollbars = ssAutoVertical
+    TabOrder = 0
+    OnCellClick = DBGrid1CellClick
+  end
+  object Button: TButton
+    Left = 568
+    Height = 40
+    Top = 0
+    Width = 171
+    Caption = 'книги'
+    Font.Height = -17
+    Font.Name = 'JetBrains Mono'
+    OnClick = ButtonClick
+    ParentFont = False
+    TabOrder = 1
+  end
+  object Button2: TButton
+    Left = 0
+    Height = 40
+    Top = 0
+    Width = 150
+    Caption = 'удалить'
+    Font.Height = -17
+    Font.Name = 'JetBrains Mono'
+    OnClick = Button2Click
+    ParentFont = False
+    TabOrder = 2
+  end
+  object Button3: TButton
+    Left = 742
+    Height = 40
+    Top = 0
+    Width = 190
+    Caption = 'писатели'
+    Font.Height = -17
+    Font.Name = 'JetBrains Mono'
+    OnClick = Button3Click
+    ParentFont = False
+    TabOrder = 3
+  end
+  object SQLT: TSQLTransaction
+    Active = False
+    Database = SQLC
+    Left = 56
+    Top = 208
+  end
+  object SQLC: TSQLite3Connection
+    Connected = False
+    LoginPrompt = False
+    DatabaseName = '/home/evg/Документы/практика/lazDB/db/writes'
+    KeepConnection = True
+    Transaction = SQLT
+    CharSet = 'UTF8'
+    AlwaysUseBigint = False
+    Left = 160
+    Top = 208
+  end
+  object SQLQuery: TSQLQuery
+    PacketRecords = -1
+    MaxIndexesCount = 4
+    FieldDefs = <    
+      item
+        Name = 'id'
+        DataType = ftInteger
+        Precision = -1
+      end    
+      item
+        Name = 'name'
+        DataType = ftString
+        Precision = -1
+        Size = 30
+      end    
+      item
+        Name = 'patronymic'
+        DataType = ftString
+        Precision = -1
+        Size = 40
+      end    
+      item
+        Name = 'surname'
+        DataType = ftString
+        Precision = -1
+        Size = 40
+      end    
+      item
+        Name = 'name_1'
+        DataType = ftString
+        Precision = -1
+        Size = 255
+      end    
+      item
+        Name = 'name_2'
+        DataType = ftString
+        Precision = -1
+        Size = 255
+      end    
+      item
+        Name = 'circulation'
+        DataType = ftInteger
+        Precision = -1
+      end>
+    Database = SQLC
+    Transaction = SQLT
+    ReadOnly = True
+    SQL.Strings = (
+      'select publishers.id, writers.name, writers.patronymic, writers.surname, products.name, bookBinding.name , publishers.circulation'
+      'from publishers'
+      'left join products on publishers.idProduct = products.id'
+      'left join bookBinding on publishers.idBookBinding = bookBinding.id'
+      'left join writers on  products.idWriter = writers.id;'
+    )
+    Options = [sqoKeepOpenOnCommit, sqoAutoApplyUpdates, sqoAutoCommit]
+    Params = <>
+    Macros = <>
+    Left = 56
+    Top = 152
+  end
+  object DataS: TDataSource
+    DataSet = SQLQuery
+    Left = 160
+    Top = 152
+  end
+  object SQLQueryZapros: TSQLQuery
+    FieldDefs = <>
+    Database = SQLC
+    Transaction = SQLT
+    Params = <>
+    Macros = <>
+    Left = 160
+    Top = 80
+  end
+end
